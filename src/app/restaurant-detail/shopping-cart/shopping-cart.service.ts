@@ -1,5 +1,8 @@
-import {CartItem} from './cart-item.model',
-import {MenuItem} from '../menu-item/menu-item.model'
+import {CartItem} from './cart-item.model';
+import {MenuItem} from '../menu-item/menu-item.model';
+import {Injectable} from "@angular/core";
+
+@Injectable()
 
 export class ShoppingCartService{
     items: CartItem[] = []
@@ -8,26 +11,26 @@ export class ShoppingCartService{
         this.items = []
 
     }
+
 //o método addItem procura o id do item adicionado dentro do carrinho para ver se já existe, se sim, apenas acrescenta.
-    addItem(item:any){
-        let foundItem = this.items.find((mItem)=> mItem.menuItem.id === item.id)
+    addItem(item:MenuItem){
+        let foundItem = this.items.find((mItem)=> mItem.menuItem.id === item.id);
         if(foundItem){
-            foundItem.quantity =+1
+            foundItem.quantity = foundItem.quantity + 1
         }else{
             this.items.push(new CartItem(item))
         }
 
     }
 //o método removeItem utiliza o método splice para remover o item do carrinho
-    removeItem(item:any){
+    removeItem(item:CartItem){
         this.items.splice(this.items.indexOf(item), 1)
     }
 
-}
-    total(item:number){
+    total(): number{
         return this.items
             .map(item => item.value())
-            .reduce((prev, value)=> prev+value, 0)
+            .reduce((prev, value)=> prev + value, 0)
     }
 
 }
